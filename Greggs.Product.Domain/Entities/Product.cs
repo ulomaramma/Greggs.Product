@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Greggs.Product.Domain.Entities
+namespace Greggs.Products.Domain.Entities
 {
     public class Product
     {
