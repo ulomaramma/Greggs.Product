@@ -1,4 +1,6 @@
-﻿using Greggs.Products.Infrastructure.Persistence;
+﻿using Greggs.Products.Application.Interfaces.Repositories;
+using Greggs.Products.Infrastructure.DataAccess;
+using Greggs.Products.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,18 +16,12 @@ namespace Greggs.Products.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-
-            //}); 
-
+           
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddScoped<IPatientRepository, PatientRepository>();
-            //services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-            //services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+
 
             return services;
         }

@@ -1,4 +1,5 @@
 ﻿using Greggs.Products.Domain.Entities;
+using Greggs.Products.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Greggs.Products.Infrastructure.Persistence
+namespace Greggs.Products.Infrastructure.DataAccess
 {
     public class ApplicationDbContext: DbContext
     {
@@ -25,6 +26,8 @@ namespace Greggs.Products.Infrastructure.Persistence
         {
             modelBuilder.Entity<NutritionalInformation>()
                 .HasKey(c => c.NutritionID);
+
+            modelBuilder.Seed();
         }
 
     }

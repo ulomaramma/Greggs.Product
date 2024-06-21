@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Greggs.Products.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
+using Greggs.Products.Application.Services;
+using Greggs.Products.Application.Interfaces.Services;
 namespace Greggs.Products.Api;
 
 public class Startup
@@ -18,7 +20,7 @@ public class Startup
     {
         services.AddInfrastructureServices(Configuration);
         services.AddControllers();
-
+        services.AddScoped<IProductService,ProductService>();
         services.AddSwaggerGen();
     }
 
