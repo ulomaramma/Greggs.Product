@@ -21,6 +21,7 @@ namespace Greggs.Products.Infrastructure.Extensions
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
 
 
             return services;
