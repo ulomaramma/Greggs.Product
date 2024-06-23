@@ -21,6 +21,7 @@ namespace Greggs.Products.Infrastructure.DataAccess
         public DbSet<Product> Products { get; set; }
         public DbSet<Nutrient> Nutrients { get; set; }
         public DbSet<NutritionalInformation> NutritionalInformation { get; set; }
+        public DbSet<Location> Locations { get; set; }  
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

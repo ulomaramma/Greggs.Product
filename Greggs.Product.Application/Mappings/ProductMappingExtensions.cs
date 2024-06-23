@@ -21,8 +21,8 @@ namespace Greggs.Products.Application.Mappings
                 Description = product.Description,
                 CreatedDate = product.CreatedDate,
                 UpdatedDate = product.UpdatedDate,
-                Category = product.Category?.ToDTO(),
-                NutritionalInformations = product.NutritionalInformations?.Select(ni => ni.ToDTO()).ToList()
+                Category = product.Category.ToDTO(),
+                NutritionalInformations = product.NutritionalInformations.Select(ni => ni.ToDTO()).ToList()
             };
         }
     }

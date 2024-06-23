@@ -10,7 +10,7 @@ namespace Greggs.Products.Infrastructure.Extensions
 {
     public static class ModelBuilderExtensions
     {
-        public static void Seed (this ModelBuilder modelBuilder)
+        public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>().HasData(
                 new Category { CategoryID = 1, Name = "BREAKFAST" },
@@ -41,7 +41,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     ProductID = 1,
                     ProductName = "Sausage Roll",
                     PriceInPounds = 1m,
-                    CategoryID = 3, 
+                    CategoryID = 3,
                     Description = "A delicious sausage roll.",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
@@ -52,7 +52,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     ProductID = 2,
                     ProductName = "Vegan Sausage Roll",
                     PriceInPounds = 1.1m,
-                    CategoryID = 3, 
+                    CategoryID = 3,
                     Description = "A tasty vegan sausage roll.",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
@@ -85,7 +85,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     ProductID = 5,
                     ProductName = "Pink Jammie",
                     PriceInPounds = 0.5m,
-                    CategoryID = 6, 
+                    CategoryID = 6,
                     Description = "A delicious pink jammie.",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
@@ -96,7 +96,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     ProductID = 6,
                     ProductName = "Mexican Baguette",
                     PriceInPounds = 2.1m,
-                    CategoryID = 5, 
+                    CategoryID = 5,
                     Description = "A spicy Mexican baguette.",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
@@ -107,7 +107,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     ProductID = 7,
                     ProductName = "Bacon Sandwich",
                     PriceInPounds = 1.95m,
-                    CategoryID = 1, 
+                    CategoryID = 1,
                     Description = "A delicious bacon sandwich.",
                     CreatedDate = DateTime.Now,
                     UpdatedDate = DateTime.Now,
@@ -142,7 +142,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 2,
                     ProductID = 1,
-                    NutrientID = 2, 
+                    NutrientID = 2,
                     Measurement = 100,
                     NutritionalValue = 12
                 },
@@ -150,7 +150,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 3,
                     ProductID = 1,
-                    NutrientID = 3, 
+                    NutrientID = 3,
                     Measurement = 100,
                     NutritionalValue = 15
                 },
@@ -158,7 +158,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 4,
                     ProductID = 1,
-                    NutrientID = 4, 
+                    NutrientID = 4,
                     Measurement = 100,
                     NutritionalValue = 300
                 },
@@ -166,7 +166,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 5,
                     ProductID = 1,
-                    NutrientID = 5, 
+                    NutrientID = 5,
                     Measurement = 100,
                     NutritionalValue = 1256
                 },
@@ -174,7 +174,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 6,
                     ProductID = 1,
-                    NutrientID = 6, 
+                    NutrientID = 6,
                     Measurement = 100,
                     NutritionalValue = 3
                 },
@@ -182,17 +182,17 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 7,
                     ProductID = 1,
-                    NutrientID = 7, 
+                    NutrientID = 7,
                     Measurement = 100,
                     NutritionalValue = 1.5m
                 },
 
-                
+
                 new NutritionalInformation
                 {
                     NutritionID = 8,
                     ProductID = 2,
-                    NutrientID = 1, 
+                    NutrientID = 1,
                     Measurement = 100,
                     NutritionalValue = 28
                 },
@@ -200,7 +200,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 9,
                     ProductID = 2,
-                    NutrientID = 2, 
+                    NutrientID = 2,
                     Measurement = 100,
                     NutritionalValue = 10
                 },
@@ -208,7 +208,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 10,
                     ProductID = 2,
-                    NutrientID = 3, 
+                    NutrientID = 3,
                     Measurement = 100,
                     NutritionalValue = 14
                 },
@@ -216,7 +216,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 11,
                     ProductID = 2,
-                    NutrientID = 4, 
+                    NutrientID = 4,
                     Measurement = 100,
                     NutritionalValue = 280
                 },
@@ -224,7 +224,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 12,
                     ProductID = 2,
-                    NutrientID = 5, 
+                    NutrientID = 5,
                     Measurement = 100,
                     NutritionalValue = 1172
                 },
@@ -232,7 +232,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 13,
                     ProductID = 2,
-                    NutrientID = 6, 
+                    NutrientID = 6,
                     Measurement = 100,
                     NutritionalValue = 2.5m
                 },
@@ -240,7 +240,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 14,
                     ProductID = 2,
-                    NutrientID = 7, 
+                    NutrientID = 7,
                     Measurement = 100,
                     NutritionalValue = 1.2m
                 },
@@ -249,7 +249,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 15,
                     ProductID = 3,
-                    NutrientID = 1, 
+                    NutrientID = 1,
                     Measurement = 100,
                     NutritionalValue = 29
                 },
@@ -257,7 +257,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 16,
                     ProductID = 3,
-                    NutrientID = 2, 
+                    NutrientID = 2,
                     Measurement = 100,
                     NutritionalValue = 11
                 },
@@ -265,7 +265,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 17,
                     ProductID = 3,
-                    NutrientID = 3, 
+                    NutrientID = 3,
                     Measurement = 100,
                     NutritionalValue = 18
                 },
@@ -281,7 +281,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 19,
                     ProductID = 3,
-                    NutrientID = 5, 
+                    NutrientID = 5,
                     Measurement = 100,
                     NutritionalValue = 1215
                 },
@@ -289,7 +289,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 20,
                     ProductID = 3,
-                    NutrientID = 6, 
+                    NutrientID = 6,
                     Measurement = 100,
                     NutritionalValue = 3
                 },
@@ -297,13 +297,20 @@ namespace Greggs.Products.Infrastructure.Extensions
                 {
                     NutritionID = 21,
                     ProductID = 3,
-                    NutrientID = 7, 
+                    NutrientID = 7,
                     Measurement = 100,
                     NutritionalValue = 1.7m
                 }
             };
 
             modelBuilder.Entity<NutritionalInformation>().HasData(nutritionalInformations);
+
+
+            // Seed Location Data
+
+            modelBuilder.Entity<Location>().HasData(
+                new Location { LocationId = 1, Name = "Europe", Code = "EU", Currency = "EUR", ConversionRateToPounds = 1.11m }
+            );
         }
     }
 }

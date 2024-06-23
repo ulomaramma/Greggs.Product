@@ -25,12 +25,12 @@ public class ProductController : ControllerBase
     //    "Sausage Roll", "Vegan Sausage Roll", "Steak Bake", "Yum Yum", "Pink Jammie"
     //};
 
-    //private readonly ILogger<ProductController> _logger;
+    private readonly ILogger<ProductController> _logger;
 
-    //public ProductController(ILogger<ProductController> logger)
-    //{
-    //    _logger = logger;
-    //}
+    public ProductController(ILogger<ProductController> logger)
+    {
+        _logger = logger;
+    }
 
     //[HttpGet]
     //public IEnumerable<Product> Get(int pageStart = 0, int pageSize = 5)
@@ -52,5 +52,33 @@ public class ProductController : ControllerBase
     {
         var products = await _productService.List(pageStart, pageSize);
         return Ok(products);
+    }
+
+    [HttpGet("WithConvertedPrices")]
+    public async Task<IActionResult> GetWithConvertedPrices(int pageStart = 0, int pageSize = 10, string countryCode = "EU")
+    {
+        try
+        {
+            var products = await _productService.ListWithConvertedPrices(pageStart, pageSize, countryCode);
+            return Ok(products);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("InEuros")]
+    public async Task<IActionResult> GetWithPricesInEuros(int pageStart = 0, int pageSize = 10)
+    {
+        try
+        {
+            var products = await _productService.ListWithPricesInEuros(pageStart, pageSize);
+            return Ok(products);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

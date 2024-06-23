@@ -18,7 +18,7 @@ namespace Greggs.Products.Application.Mappings
                 NutrientID = nutritionalInformation.NutrientID,
                 Measurement = nutritionalInformation.Measurement,
                 NutritionalValue = nutritionalInformation.NutritionalValue,
-                Nutrient = nutritionalInformation.Nutrient?.ToDTO()
+                Nutrient = nutritionalInformation.Nutrient.ToDTO()
             };
         }
     }

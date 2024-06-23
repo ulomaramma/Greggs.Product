@@ -17,7 +17,6 @@ namespace Greggs.Products.Domain.Entities
         public DateTime? UpdatedDate { get; set; }
         public bool IsDeleted { get; set; }
         public Category Category { get; set; }
-
         public List<NutritionalInformation> NutritionalInformations { get; set; }
 
     }
