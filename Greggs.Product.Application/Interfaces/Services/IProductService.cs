@@ -11,6 +11,6 @@ namespace Greggs.Products.Application.Interfaces.Services
     public interface IProductService
     {
         Task<IEnumerable<ProductDTO>> GetLatestProducts(int pageStart, int pageSize, string orderBy);
-        Task<IEnumerable<ProductDTO>> GetLatestProductsByLocation(int pageStart, int pageSize, string orderBy, string code);
+        Task<IEnumerable<ProductDTO>> GetLatestProductsPricesByLocation(int pageStart, int pageSize, string orderBy, string code);
     }
 }

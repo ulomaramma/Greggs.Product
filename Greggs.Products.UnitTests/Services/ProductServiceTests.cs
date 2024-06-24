@@ -1,4 +1,6 @@
-﻿using Greggs.Products.Application.Interfaces.Repositories;
+﻿using Greggs.Products.Application.Interfaces.Helpers;
+using Greggs.Products.Application.Interfaces.QueryBuilder;
+using Greggs.Products.Application.Interfaces.Repositories;
 using Greggs.Products.Application.Services;
 using Greggs.Products.Domain.Entities;
 using Microsoft.Extensions.Configuration;
@@ -15,15 +17,18 @@ namespace Greggs.Products.UnitTests.Services
     {
         private readonly Mock<IProductRepository> _productRepositoryMock;
         private readonly Mock<ILocationRepository> _locationRepositoryMock;
-        private readonly Mock<IConfiguration> _configurationMock;
+        private readonly Mock<ICurrencyConversionHelper> _currencyConversionHelperMock;
         private readonly ProductService _productService;
+        private readonly Mock<IProductQueryBuilder> _productQueryBuilderMock;
+
 
         public ProductServiceTests()
         {
             _productRepositoryMock = new Mock<IProductRepository>();
             _locationRepositoryMock = new Mock<ILocationRepository>();
-            _configurationMock = new Mock<IConfiguration>();
-            _productService = new ProductService(_productRepositoryMock.Object, _locationRepositoryMock.Object, _configurationMock.Object);
+            _currencyConversionHelperMock = new Mock<ICurrencyConversionHelper>();
+            _productQueryBuilderMock = new Mock<IProductQueryBuilder>();
+            _productService = new ProductService(_productRepositoryMock.Object, _locationRepositoryMock.Object, _currencyConversionHelperMock.Object);
         }
 
         private List<Product> GetSampleProducts()
@@ -81,14 +86,18 @@ namespace Greggs.Products.UnitTests.Services
 
 
         [Fact]
-        public async Task List_ShouldReturnProductDTOs()
+        public async Task GetLatestProducts_Returns_ProductDTOs()
         {
             // Arrange
             var products = GetSampleProducts();
-            _productRepositoryMock.Setup(repo => repo.List(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
 
+            _productQueryBuilderMock.Setup(qb => qb.GetPagedProducts(It.IsAny<int>(), It.IsAny<int>()))
+                           .ReturnsAsync(products);
+
+            _productRepositoryMock.Setup(pr => pr.GetLatestProducts(It.IsAny<string>()))
+                                  .Returns(_productQueryBuilderMock.Object);
             // Act
-            var result = await _productService.List(0, 10);
+            var result = await _productService.GetLatestProducts(0, 10, "CreatedDate");
 
             // Assert
             Assert.NotNull(result);
@@ -97,16 +106,20 @@ namespace Greggs.Products.UnitTests.Services
         }
 
         [Fact]
-        public async Task ListWithPricesInEuros_ShouldReturnConvertedPrices()
+        public async Task GetLatestProductsPricesByLocation_Returns_ProdutsWithConvertedPrices()
         {
             // Arrange
             var products = GetSampleProducts();
+            var location = new Location { Code = "EUR", ExchangeRateToPounds = 1.11M };
 
-            _productRepositoryMock.Setup(repo => repo.List(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
-            _configurationMock.Setup(config => config["ExchangeRates:GBPToEUR"]).Returns("1.11");
+            _productQueryBuilderMock.Setup(qb => qb.GetPagedProducts(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
+            _productRepositoryMock.Setup(pr => pr.GetLatestProducts(It.IsAny<string>())).Returns(_productQueryBuilderMock.Object);
+            _locationRepositoryMock.Setup(lr => lr.GetByLocationCodeAsync(It.IsAny<string>())).ReturnsAsync(location);
+            _currencyConversionHelperMock.Setup(cch => cch.Convert(It.IsAny<decimal>(), It.IsAny<decimal>()))
+                         .Returns((decimal amount, decimal rate) => Math.Round(amount * rate, 2));
 
             // Act
-            var result = await _productService.ListWithPricesInEuros(0, 10);
+            var result = await _productService.GetLatestProductsPricesByLocation(0, 10, "CreatedDate", "EUR");
 
             // Assert
             Assert.NotNull(result);
@@ -117,57 +130,22 @@ namespace Greggs.Products.UnitTests.Services
         }
 
         [Fact]
-        public async Task ListWithPricesInEuros_ShouldThrowException_WhenConversionRateIsNotConfigured()
-        {
-            // Arrange
-            _configurationMock.Setup(config => config["ExchangeRates:GBPToEUR"]).Returns((string)null);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => _productService.ListWithPricesInEuros(0, 10));
-        }
-
-        [Fact]
-        public async Task ListWithPricesInEuros_ShouldThrowException_WhenConversionRateIsInvalid()
-        {
-            // Arrange
-            _configurationMock.Setup(config => config["ExchangeRates:GBPToEUR"]).Returns("invalid");
-
-            // Act & Assert
-            await Assert.ThrowsAsync<FormatException>(() => _productService.ListWithPricesInEuros(0, 10));
-        }
-
-        [Fact]
-        public async Task ListWithConvertedPrices_ShouldConvertPrices()
+        public async Task GetLatestProductsPricesByLocation_ThrowsException_WhenInvalidLocationCode()
         {
             // Arrange
             var products = GetSampleProducts();
-            var location = new Location { LocationId = 1, Code = "EUR", ExchangeRateToPounds = 1.11m, Currency = "EUR" };
-
-            _productRepositoryMock.Setup(repo => repo.List(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
-            _locationRepositoryMock.Setup(repo => repo.GetByLocationCodeAsync(It.IsAny<string>())).ReturnsAsync(location);
-
-            // Act
-            var result = await _productService.ListWithConvertedPrices(0, 10, "EUR");
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(2, result.Count());
-            Assert.Equal(1.11m, result.First().ConvertedPrice);
-            Assert.Equal(1.22m, result.Last().ConvertedPrice);
-            Assert.All(result, r => Assert.Equal("EUR", r.ConvertedCurrency));
-        }
-
-        [Fact]
-        public async Task ListWithConvertedPrices_ShouldThrowException_WhenLocationIsNull()
-        {
-            // Arrange
-            var products = GetSampleProducts();
-
-            _productRepositoryMock.Setup(repo => repo.List(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
-            _locationRepositoryMock.Setup(repo => repo.GetByLocationCodeAsync(It.IsAny<string>())).ReturnsAsync((Location)null);
+            _productQueryBuilderMock.Setup(qb => qb.GetPagedProducts(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
+            _productRepositoryMock.Setup(pr => pr.GetLatestProducts(It.IsAny<string>())).Returns(_productQueryBuilderMock.Object);
+            _locationRepositoryMock.Setup(lr => lr.GetByLocationCodeAsync(It.IsAny<string>()))
+                                   .ReturnsAsync((Location)null);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => _productService.ListWithConvertedPrices(0, 10, "EUR"));
+            await Assert.ThrowsAsync<Exception>(() => _productService.GetLatestProductsPricesByLocation(0, 10, "CreatedDate", "InvalidCode"));
         }
+
+
+
+
+
     }
 }

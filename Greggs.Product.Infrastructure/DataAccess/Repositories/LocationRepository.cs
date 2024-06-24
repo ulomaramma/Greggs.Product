@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace Greggs.Products.Infrastructure.DataAccess.Repositories
 {
-    public class LocationRepository: GenericRepository<Location>, ILocationRepository
+    public class LocationRepository: ILocationRepository
     {
-        public LocationRepository(ApplicationDbContext context) : base(context)
+        private readonly ApplicationDbContext _context;
+
+        public LocationRepository(ApplicationDbContext context)
         {
+            _context = context;
         }
 
         public async Task<Location> GetByLocationCodeAsync(string code)

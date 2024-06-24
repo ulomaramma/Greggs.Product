@@ -20,14 +20,12 @@ namespace Greggs.Products.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly ILocationRepository _locationRepository;
         private readonly ICurrencyConversionHelper _currencyConversionHelper;
-        private readonly IConfiguration _configuration;
 
-        public ProductService(IProductRepository productRepository, ILocationRepository locationRepository, ICurrencyConversionHelper currencyConversionHelper, IConfiguration configuration)
+        public ProductService(IProductRepository productRepository, ILocationRepository locationRepository, ICurrencyConversionHelper currencyConversionHelper)
         {
             _productRepository = productRepository;
             _locationRepository = locationRepository;
             _currencyConversionHelper = currencyConversionHelper;
-            _configuration = configuration;
 
         }
 
@@ -37,7 +35,7 @@ namespace Greggs.Products.Application.Services
             return products.Select(p => p.ToDTO());
         }
 
-        public async Task<IEnumerable<ProductDTO>> GetLatestProductsByLocation(int pageStart, int pageSize, string orderBy, string code)
+        public async Task<IEnumerable<ProductDTO>> GetLatestProductsPricesByLocation(int pageStart, int pageSize, string orderBy, string code)
         {
             var products = await _productRepository.GetLatestProducts(orderBy).GetPagedProducts(pageStart, pageSize);
             var location = await _locationRepository.GetByLocationCodeAsync(code);

@@ -21,11 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Greggs.Product.Application\Greggs.Products.Application.csproj" />
+    <ProjectReference Include="..\Greggs.Products.Api\Greggs.Products.Api.csproj" />
   </ItemGroup>
 
 </Project>

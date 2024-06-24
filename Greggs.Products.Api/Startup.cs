@@ -6,6 +6,10 @@ using Greggs.Products.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Greggs.Products.Application.Services;
 using Greggs.Products.Application.Interfaces.Services;
+using Greggs.Products.Application.Helpers;
+using Greggs.Products.Application.Interfaces.Helpers;
+using Greggs.Products.Infrastructure.DataAccess;
+using Microsoft.EntityFrameworkCore;
 namespace Greggs.Products.Api;
 
 public class Startup
@@ -21,6 +25,7 @@ public class Startup
         services.AddInfrastructureServices(Configuration);
         services.AddControllers();
         services.AddScoped<IProductService,ProductService>();
+        services.AddScoped<ICurrencyConversionHelper, CurrencyConversionHelper>();
         services.AddSwaggerGen();
     }
 
@@ -41,5 +46,17 @@ public class Startup
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+        // Apply migrations at startup
+        ApplyMigrations(app);
     }
+    private void ApplyMigrations(IApplicationBuilder app)
+    {
+        using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+        {
+            var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+            context.Database.Migrate();
+        }
+    }
+
 }

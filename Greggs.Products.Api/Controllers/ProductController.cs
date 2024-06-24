@@ -45,7 +45,7 @@ public class ProductController : ControllerBase
     //        .ToArray();
     //}
 
-    [HttpGet]
+    [HttpGet("latestproduct")]
     public async Task<IActionResult> GetLatestProducts(int pageStart = 0, int pageSize = 10, string orderBy = "CreatedDate")
     {
         try
@@ -67,26 +67,13 @@ public class ProductController : ControllerBase
         }
     }
 
-    //[HttpGet("InEuros")]
-    //public async Task<IActionResult> GetWithPricesInEuros(int pageStart = 0, int pageSize = 10)
-    //{
-    //    try
-    //    {
-    //        var products = await _productService.ListWithPricesInEuros(pageStart, pageSize);
-    //        return Ok(products);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return BadRequest(ex.Message);
-    //    }
-    //}
-
-    [HttpGet("PricesByLocation")]
-    public async Task<IActionResult> GetProductPricesByLocation(int pageStart = 0, int pageSize = 10, string countryCode = "EU")
+    
+    [HttpGet("pricesbylocation")]
+    public async Task<IActionResult> GetLatestProductsPricesByLocation(int pageStart = 0, int pageSize = 10, string orderBy = "CreatedDate", string countryCode = "EU")
     {
         try
         {
-            var products = await _productService.ListWithConvertedPrices(pageStart, pageSize, countryCode);
+            var products = await _productService.GetLatestProductsPricesByLocation(pageStart, pageSize, orderBy, countryCode);
             if (products == null || !products.Any())
             {
                 var response = new ApiResponse<IEnumerable<ProductDTO>>(false, StatusCodes.Status404NotFound, null, "No products found.");

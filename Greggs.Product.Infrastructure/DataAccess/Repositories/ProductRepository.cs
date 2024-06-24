@@ -13,14 +13,12 @@ using System.Threading.Tasks;
 
 namespace Greggs.Products.Infrastructure.DataAccess.Repositories
 {
-    public class ProductRepository 
+    public class ProductRepository: IProductRepository
     {
-        private readonly ApplicationDbContext _context;
         private readonly IProductQueryBuilder _productQueryBuilder;
 
-        public ProductRepository(ApplicationDbContext context, IProductQueryBuilder productQueryBuilder)
+        public ProductRepository( IProductQueryBuilder productQueryBuilder)
         {
-            _context = context;
             _productQueryBuilder = productQueryBuilder;
 
         }
@@ -32,11 +30,6 @@ namespace Greggs.Products.Infrastructure.DataAccess.Repositories
                         .IncludeNutritionalInformations()
                         .OrderByDescending(orderBy);
         }
-
-
-
-
-
 
     }
 }

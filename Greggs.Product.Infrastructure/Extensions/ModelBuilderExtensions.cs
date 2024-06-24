@@ -43,7 +43,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     PriceInPounds = 1m,
                     CategoryID = 3,
                     Description = "A delicious sausage roll.",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate =  new DateTime(2018, 4, 15),
                     UpdatedDate = DateTime.Now,
                     IsDeleted = false
                 },
@@ -54,7 +54,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     PriceInPounds = 1.1m,
                     CategoryID = 3,
                     Description = "A tasty vegan sausage roll.",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = new DateTime(2023, 8, 21),
                     UpdatedDate = DateTime.Now,
                     IsDeleted = false
                 },
@@ -76,7 +76,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     PriceInPounds = 0.7m,
                     CategoryID = 6,
                     Description = "A sweet treat.",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate =  new DateTime(2020, 6, 20),
                     UpdatedDate = DateTime.Now,
                     IsDeleted = false
                 },
@@ -87,7 +87,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     PriceInPounds = 0.5m,
                     CategoryID = 6,
                     Description = "A delicious pink jammie.",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = new DateTime(2018, 6, 15),
                     UpdatedDate = DateTime.Now,
                     IsDeleted = false
                 },
@@ -98,7 +98,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     PriceInPounds = 2.1m,
                     CategoryID = 5,
                     Description = "A spicy Mexican baguette.",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate =  new DateTime(2022, 6, 15),
                     UpdatedDate = DateTime.Now,
                     IsDeleted = false
                 },
@@ -120,7 +120,7 @@ namespace Greggs.Products.Infrastructure.Extensions
                     PriceInPounds = 1.2m,
                     CategoryID = 4,
                     Description = "A refreshing Coca Cola.",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate =  new DateTime(2023, 5, 15),
                     UpdatedDate = DateTime.Now,
                     IsDeleted = false
                 }
@@ -309,7 +309,9 @@ namespace Greggs.Products.Infrastructure.Extensions
             // Seed Location Data
 
             modelBuilder.Entity<Location>().HasData(
-                new Location { LocationId = 1, Name = "Europe", Code = "EU", Currency = "EUR", ExchangeRateToPounds = 1.11m }
+                new Location { LocationId = 1, Name = "Europe", Code = "EU", Currency = "EUR", ExchangeRateToPounds = 1.11m },
+                new Location { LocationId = 2, Name = "Nigeria", Code = "NI", Currency = "NAIRA", ExchangeRateToPounds = 1800m }
+
             );
         }
     }
