@@ -12,6 +12,6 @@ namespace Greggs.Products.Domain.Entities
         public string Name { get; set; }
         public string Code { get; set; }
         public string Currency { get; set; }
-        public decimal ConversionRateToPounds { get; set; }
+        public decimal ExchangeRateToPounds { get; set; }
     }
 }

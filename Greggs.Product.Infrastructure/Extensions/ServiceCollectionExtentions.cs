@@ -1,5 +1,7 @@
-﻿using Greggs.Products.Application.Interfaces.Repositories;
+﻿using Greggs.Products.Application.Interfaces.QueryBuilder;
+using Greggs.Products.Application.Interfaces.Repositories;
 using Greggs.Products.Infrastructure.DataAccess;
+using Greggs.Products.Infrastructure.DataAccess.QueryBuilder;
 using Greggs.Products.Infrastructure.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +24,7 @@ namespace Greggs.Products.Infrastructure.Extensions
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<IProductQueryBuilder, ProductQueryBuilder>();
 
 
             return services;

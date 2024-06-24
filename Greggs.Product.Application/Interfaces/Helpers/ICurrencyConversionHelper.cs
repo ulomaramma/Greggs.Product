@@ -8,6 +8,6 @@ namespace Greggs.Products.Application.Interfaces.Helpers
 {
     public interface ICurrencyConversionHelper
     {
-        decimal ConvertGBP(decimal amountInPounds, decimal conversionRate);
+        decimal Convert(decimal amountInPounds, decimal conversionRate);
     }
 }

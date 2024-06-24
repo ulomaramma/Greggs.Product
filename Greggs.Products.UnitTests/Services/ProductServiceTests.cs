@@ -112,7 +112,7 @@ namespace Greggs.Products.UnitTests.Services
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             Assert.Equal(1.11m, result.First().ConvertedPrice);
-            Assert.Equal(1.221m, result.Last().ConvertedPrice);
+            Assert.Equal(1.22m, result.Last().ConvertedPrice);
             Assert.All(result, r => Assert.Equal("EUR", r.ConvertedCurrency));
         }
 
@@ -141,7 +141,7 @@ namespace Greggs.Products.UnitTests.Services
         {
             // Arrange
             var products = GetSampleProducts();
-            var location = new Location { LocationId = 1, Code = "EUR", ConversionRateToPounds = 1.11m, Currency = "EUR" };
+            var location = new Location { LocationId = 1, Code = "EUR", ExchangeRateToPounds = 1.11m, Currency = "EUR" };
 
             _productRepositoryMock.Setup(repo => repo.List(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(products);
             _locationRepositoryMock.Setup(repo => repo.GetByLocationCodeAsync(It.IsAny<string>())).ReturnsAsync(location);
@@ -153,7 +153,7 @@ namespace Greggs.Products.UnitTests.Services
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             Assert.Equal(1.11m, result.First().ConvertedPrice);
-            Assert.Equal(1.221m, result.Last().ConvertedPrice);
+            Assert.Equal(1.22m, result.Last().ConvertedPrice);
             Assert.All(result, r => Assert.Equal("EUR", r.ConvertedCurrency));
         }
 

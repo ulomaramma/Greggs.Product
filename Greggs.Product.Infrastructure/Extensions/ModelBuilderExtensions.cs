@@ -309,7 +309,7 @@ namespace Greggs.Products.Infrastructure.Extensions
             // Seed Location Data
 
             modelBuilder.Entity<Location>().HasData(
-                new Location { LocationId = 1, Name = "Europe", Code = "EU", Currency = "EUR", ConversionRateToPounds = 1.11m }
+                new Location { LocationId = 1, Name = "Europe", Code = "EU", Currency = "EUR", ExchangeRateToPounds = 1.11m }
             );
         }
     }

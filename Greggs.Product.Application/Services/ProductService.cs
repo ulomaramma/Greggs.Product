@@ -31,51 +31,30 @@ namespace Greggs.Products.Application.Services
 
         }
 
-        public async Task<IEnumerable<ProductDTO>> List(int pageStart, int pageSize)
+        public async Task<IEnumerable<ProductDTO>> GetLatestProducts(int pageStart, int pageSize, string orderBy)
         {
-            var products = await _productRepository.List(pageStart, pageSize);
+            var products = await _productRepository.GetLatestProducts(orderBy).GetPagedProducts(pageStart, pageSize);
             return products.Select(p => p.ToDTO());
         }
 
-        public async Task<IEnumerable<ProductDTO>> ListWithConvertedPrices(int pageStart, int pageSize, string code)
+        public async Task<IEnumerable<ProductDTO>> GetLatestProductsByLocation(int pageStart, int pageSize, string orderBy, string code)
         {
-            var products = await _productRepository.List(pageStart, pageSize);
+            var products = await _productRepository.GetLatestProducts(orderBy).GetPagedProducts(pageStart, pageSize);
             var location = await _locationRepository.GetByLocationCodeAsync(code);
             if (location == null)
             {
                 throw new Exception("Invalid country code.");
             }
-            return ConvertProductPrice(products, location.ConversionRateToPounds); ;
-            
-        }
-
-        public async Task<IEnumerable<ProductDTO>> ListWithPricesInEuros(int pageStart, int pageSize)
-        {
-            var products = await _productRepository.List(pageStart, pageSize);
-            var conversionRateString = _configuration["ExchangeRates:GBPToEUR"];
-
-            if (string.IsNullOrEmpty(conversionRateString))
-            {
-                throw new Exception("Conversion rate for GBP to EUR is not configured.");
-            }
-
-            if (!decimal.TryParse(conversionRateString, out var conversionRate))
-            {
-                throw new Exception("Invalid conversion rate value for GBP to EUR.");
-            }
-            return ConvertProductPrice(products, conversionRate);
-        }
-
-        private IEnumerable<ProductDTO> ConvertProductPrice(IEnumerable<Product> products, decimal conversionRate)
-        {
             return products.Select(p =>
             {
                 var productDTO = p.ToDTO();
-                productDTO.ConvertedPrice = _currencyConversionHelper.ConvertGBP(p.PriceInPounds, conversionRate);
+                productDTO.ConvertedPrice = _currencyConversionHelper.Convert(p.PriceInPounds, location.ExchangeRateToPounds);
                 productDTO.ConvertedCurrency = Currency.EUR;
                 return productDTO;
             });
         }
+
+        
 
         
     }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Greggs.Products.Api.Models;
+using Greggs.Products.Application.DTOs;
 using Greggs.Products.Application.Interfaces.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -44,37 +46,62 @@ public class ProductController : ControllerBase
     //}
 
     [HttpGet]
-    public async Task<IActionResult> Get(int pageStart = 0, int pageSize = 10)
+    public async Task<IActionResult> GetLatestProducts(int pageStart = 0, int pageSize = 10, string orderBy = "CreatedDate")
     {
-        var products = await _productService.List(pageStart, pageSize);
-        return Ok(products);
+        try
+        {
+            var products = await _productService.GetLatestProducts(pageStart, pageSize, orderBy);
+            if (products == null || !products.Any())
+            {
+                var response = new ApiResponse<IEnumerable<ProductDTO>>(false, StatusCodes.Status404NotFound, null, "No products found.");
+                return NotFound(response);
+            }
+            var successResponse = new ApiResponse<IEnumerable<ProductDTO>>(true, StatusCodes.Status200OK, products);
+            return Ok(successResponse);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred while retrieving latest product.");
+            var response = new ApiResponse<IEnumerable<ProductDTO>>(false, StatusCodes.Status500InternalServerError, null, "An unexpected error occurred while retrieving latest product.");
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
+        }
     }
 
-    [HttpGet("WithConvertedPrices")]
-    public async Task<IActionResult> GetWithConvertedPrices(int pageStart = 0, int pageSize = 10, string countryCode = "EU")
+    //[HttpGet("InEuros")]
+    //public async Task<IActionResult> GetWithPricesInEuros(int pageStart = 0, int pageSize = 10)
+    //{
+    //    try
+    //    {
+    //        var products = await _productService.ListWithPricesInEuros(pageStart, pageSize);
+    //        return Ok(products);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return BadRequest(ex.Message);
+    //    }
+    //}
+
+    [HttpGet("PricesByLocation")]
+    public async Task<IActionResult> GetProductPricesByLocation(int pageStart = 0, int pageSize = 10, string countryCode = "EU")
     {
         try
         {
             var products = await _productService.ListWithConvertedPrices(pageStart, pageSize, countryCode);
-            return Ok(products);
+            if (products == null || !products.Any())
+            {
+                var response = new ApiResponse<IEnumerable<ProductDTO>>(false, StatusCodes.Status404NotFound, null, "No products found.");
+                return NotFound(response);
+            }
+            var successResponse = new ApiResponse<IEnumerable<ProductDTO>>(true, StatusCodes.Status200OK, products);
+            return Ok(successResponse);
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            _logger.LogError(ex, "An unexpected error occurred while retrieving products with converted prices.");
+            var response = new ApiResponse<IEnumerable<ProductDTO>>(false, StatusCodes.Status500InternalServerError, null, "An unexpected error occurred while retrieving products with converted prices.");
+            return StatusCode(StatusCodes.Status500InternalServerError, response);
         }
     }
 
-    [HttpGet("InEuros")]
-    public async Task<IActionResult> GetWithPricesInEuros(int pageStart = 0, int pageSize = 10)
-    {
-        try
-        {
-            var products = await _productService.ListWithPricesInEuros(pageStart, pageSize);
-            return Ok(products);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+   
 }

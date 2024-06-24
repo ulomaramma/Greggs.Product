@@ -10,8 +10,7 @@ namespace Greggs.Products.Application.Interfaces.Services
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDTO>> List(int pageStart, int pageSize);
-        Task<IEnumerable<ProductDTO>> ListWithConvertedPrices(int pageStart, int pageSize, string code);
-        Task<IEnumerable<ProductDTO>> ListWithPricesInEuros(int pageStart, int pageSize); 
+        Task<IEnumerable<ProductDTO>> GetLatestProducts(int pageStart, int pageSize, string orderBy);
+        Task<IEnumerable<ProductDTO>> GetLatestProductsByLocation(int pageStart, int pageSize, string orderBy, string code);
     }
 }

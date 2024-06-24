@@ -11,9 +11,9 @@ namespace Greggs.Products.Application.Helpers
 {
     public class CurrencyConversionHelper : ICurrencyConversionHelper
     {
-        public decimal ConvertGBP(decimal amountInPounds, decimal conversionRate)
+        public decimal Convert(decimal amount, decimal conversionRate)
         {          
-            var convertedAmount = amountInPounds * conversionRate;
+            var convertedAmount = amount * conversionRate;
             return Math.Round(convertedAmount, 2);
         }
       

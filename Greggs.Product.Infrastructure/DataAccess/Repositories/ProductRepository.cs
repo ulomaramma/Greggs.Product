@@ -1,6 +1,8 @@
 ﻿using Azure;
+using Greggs.Products.Application.Interfaces.QueryBuilder;
 using Greggs.Products.Application.Interfaces.Repositories;
 using Greggs.Products.Domain.Entities;
+using Greggs.Products.Infrastructure.DataAccess.QueryBuilder;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,21 +13,30 @@ using System.Threading.Tasks;
 
 namespace Greggs.Products.Infrastructure.DataAccess.Repositories
 {
-    public class ProductRepository :  GenericRepository<Product>, IProductRepository
+    public class ProductRepository 
     {
-        public ProductRepository(ApplicationDbContext context) : base(context)
+        private readonly ApplicationDbContext _context;
+        private readonly IProductQueryBuilder _productQueryBuilder;
+
+        public ProductRepository(ApplicationDbContext context, IProductQueryBuilder productQueryBuilder)
         {
+            _context = context;
+            _productQueryBuilder = productQueryBuilder;
+
         }
 
-        public override async Task<IEnumerable<Product>> List(int pageStart, int pageSize)
+        public IProductQueryBuilder GetLatestProducts(string orderBy)
         {
-            var products = await _context.Products.Where(p => !p.IsDeleted).Include(p => p.Category).Include(p => p.NutritionalInformations)
-                        .ThenInclude(n => n.Nutrient).OrderByDescending(p => p.CreatedDate)
-                        .Skip(pageStart * pageSize)
-                        .Take(pageSize)
-                        .ToListAsync();
-
-            return products;
+            return _productQueryBuilder
+                        .IncludeCategory()
+                        .IncludeNutritionalInformations()
+                        .OrderByDescending(orderBy);
         }
+
+
+
+
+
+
     }
 }
