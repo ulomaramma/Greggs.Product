@@ -11,7 +11,7 @@ namespace Greggs.Products.Application.DTOs
         public int ProductID { get; set; }
         public string ProductName { get; set; }
         public decimal PriceInPounds { get; set; }
-        public decimal ConvertedPrice { get; set; } // Converted Price in another 
+        public decimal ConvertedPrice { get; set; } // Converted Price in another Currency
         public string ConvertedCurrency { get; set; } 
         public int CategoryID { get; set; }
         public string Description { get; set; }
