@@ -46,6 +46,7 @@ namespace Greggs.Products.Infrastructure.DataAccess.QueryBuilder
                                .ToListAsync();
         }
 
+
         public async Task<IEnumerable<Product>> ToListAsync()
         {
             return await _query.ToListAsync();
