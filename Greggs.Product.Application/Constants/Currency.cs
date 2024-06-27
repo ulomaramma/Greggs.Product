@@ -8,6 +8,7 @@ namespace Greggs.Products.Application.Constants
 {
     public static class Currency
     {
+
         public const string EUR = "EUR";
         public const string GBP = "GBP";
     }
