@@ -49,7 +49,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    
+    // prices by location
     [HttpGet("pricesbylocation")]
     public async Task<IActionResult> GetLatestProductsPricesByLocation(int pageStart = 0, int pageSize = 10, string orderBy = "CreatedDate", string countryCode = "EU")
     {

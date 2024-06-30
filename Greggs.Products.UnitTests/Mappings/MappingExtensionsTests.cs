@@ -15,7 +15,7 @@ namespace Greggs.Products.UnitTests.Mappings
         [Fact]
         public void ToDTO_ShouldMapProductToProductDTO()
         {
-            // Arrange
+            //Arrange
             var product = new Product
             {
                 ProductID = 1,
